@@ -1,0 +1,50 @@
+
+
+
+1.create table olympic(athelete STRING,age INT,country STRING,year STRING,closing STRING,sport STRING,gold INT,silver INT,bronze INT,total INT) row format delimited fields terminated by "\t" stored as textfile;
+
+2.load data local inpath ‘/home/cloudera/Desktop/Dataset/olympic_data.csv’ into table olympic;
+
+3.select country,SUM(total) from olympic where sport = 'Swimming' GROUP BY country;
+
+4. select year,SUM(total) from olympic where country = 'India' GROUP BY year;
+
+5. select country,SUM(total) from olympic GROUP BY country;
+
+6. select country,SUM(gold) from olympic GROUP BY country;
+
+7. select country,year,'gold','bronze','silver' from olympic where sport = "Shooting" GROUP BY year,country;
+
+8. describe olympic;
+
+
+1. create table petrol (distributer_id STRING,distributer_name STRING,amt_IN STRING,amy_OUT STRING,vol_IN INT,vol_OUT INT,year INT)  row  format delimited fields terminated by "," stored as textfile;
+
+2. load data local inpath "/home/cloudera/Desktop/petrol.txt"  into table petrol;
+
+3. SELECT distributer_name, SUM(vol_OUT)  FROM  petrol GROUP  BY distributer_name;
+
+4. SELECT distributer_id,vol_OUT FROM petrol order by vol_OUT desc limit 10;
+
+5. SELECT distributer_id,vol_OUT FROM petrol order by vol_OUT limit 10;
+
+6. SELECT year,distributer_name FROM petrol where (vol_IN-vol_OUT)>500 ORDER BY distributer_name;
+
+7. SELECT year,distributer_name FROM petrol where (vol_IN-vol_OUT)<500 ORDER BY distributer_name;
+
+8. describe petrol
+
+
+Bonus Question:
+
+1. ALTER TABLE olympic REPLACE COLUMNS(athelete STRING, age INT, year STRING);
+
+2. ALTER TABLE olympic RENAME TO new_olympic;
+
+3. ALTER TABLE olympic REPLACE COLUMNS(country STRING, gold INT, year STRING, silver int);
+
+4. SELECT n.athelete, n.age, n.year, o.country, o.gold, o.silver FROM new_olympic n JOIN olympic o ON (n.year = o.year);
+
+5. SELECT n.athelete, n.age, n.year, o.country, o.gold, o.silver FROM new_olympic n JOIN olympic o ON (n.year = o.year) where country = "United States" GROUP BY n.athelete, n.age, n.year, o.country, o.gold, o.silver;
+
+
