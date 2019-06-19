@@ -1,0 +1,72 @@
+part 1
+
+a. sqoop import from mysql to hadoop
+
+	sudo service mysqld start
+	mysql -u root -pcloudera
+	show databases;
+	create database db1;
+	use db1;
+	create table employee(emp_id INT NOT NULL AUTO_INCREMENT, emp_name VARCHAR(100), emp_salary INT, PRIMARY KEY(emp_id));
+	insert into employee values(1,"Sravanthi",500000),('2,"Sudha",7000000),(3,"Sharath",9000000);
+	select * from employee;
+	sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table employee --m 1
+
+
+
+b. sqoop export from hadoop to mysql
+
+	hadoop fs -ls
+	hadoop fs -ls employee/
+	hadoop fs -cat employee/*
+	mysql> create table student(emp_id INT NOT NULL AUTO_INCREMENT, emp_name VARCHAR(100), emp_salary INT, PRIMARY KEY(emp_id));
+	sqoop export --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table student --export-dir employee/part-m 0000;
+	mysql>select * from student
+
+
+
+part 2
+
+a. sqoop export from hive to sql
+
+	hive>show tables;
+	hive>describe petrol,
+	mysql>create petrolNew(distributer_id VARCHAR(100), distributer_name VARCHAR(100), amt_in VARCHAR(100), amt_out VARCHAR(100), vol_in INT, vol_out INT, year INT);
+	sqoop export --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table petrolNew --export-dir /user/hive/warehouse/petrol -m 1
+	mysql>select * from petrolnew
+
+b. sqoop import from sql to hive
+
+	mysql> create table emp_New(id INT NOT NULL AUTO_INCREMENT, name VARCHAR(100), fees INT, PRIMARY KEY(id));
+	mysql> insert into emp_New values(1, "vidhya", 50000),(2,"priya",600000);
+	mysql> select * from emp_New;
+	sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table emp_New --m 1 --hive-import --create-hive-table --hive-table student_new
+	hive> show tables;
+	hive> describe student_new;
+	hive> select * from student_new;
+
+
+
+
+part 3
+
+sqoop import from sql to hive - shakespear dataset
+
+	mysql> create table new_txt1(text VARCHAR(1000000));
+	mysql> load data local infile '/home/cloudera/Downloads/shakespeare.txt' into table new_txt1;
+	mysql> select * from new_txt1;
+	sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table New_txt1 --m 1 --hive-import --create-hive-table --hive-table NEW_1
+	hive> show tables;
+	hive> describe new_1;
+	hive> select * from new_1
+
+queries for wordcount 
+hive>SELECT word, count(1) AS count FROM (SELECT explode(split(text, '\\s')) AS word FROM NEW_1) w GROUP BY word ORDER BY word;
+
+query for statistics
+hive> analyze table New_1 compute statistics;
+
+query for pattern
+hive> select regexp_replace('KING', '1.*\\.(Farewell)$', '');
+
+
