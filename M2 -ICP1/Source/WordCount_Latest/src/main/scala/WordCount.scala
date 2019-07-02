@@ -20,8 +20,12 @@ object WordCount {
       // Split up into words.
       val words = input.flatMap(line => line.split(" "))
       // Transform into word and count.
-      val counts = words.map(word => (word, 1)).reduceByKey{case (x, y) => x + y}
+      val counts = words.map(word => (word, 1)).reduceByKey{case (x, y) => x + y}.sortByKey(true,1)
       // Save the word count back out to a text file, causing evaluation.
+      val distinct = words.distinct()
+      println(distinct.collect().mkString(";"))
+      println("Total no of words are: ", words.count())
+      println(counts.take(3).foreach(println))
       counts.saveAsTextFile("output")
     }
 }

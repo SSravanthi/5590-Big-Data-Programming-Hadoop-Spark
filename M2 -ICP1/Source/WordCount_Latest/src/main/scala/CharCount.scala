@@ -23,7 +23,7 @@ object CharCount {
     val counts = words.map(character => (character, 1)).reduceByKey{case (x, y) => x + y}.sortByKey(true,1)
 
     // Save the word count back out to a text file, causing evaluation.
-    counts.saveAsTextFile("output")
+    counts.saveAsTextFile("output3")
     println("ok")
 
 
