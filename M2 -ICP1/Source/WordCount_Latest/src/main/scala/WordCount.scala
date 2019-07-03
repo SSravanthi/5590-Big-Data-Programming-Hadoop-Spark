@@ -26,6 +26,6 @@ object WordCount {
       println(distinct.collect().mkString(";"))
       println("Total no of words are: ", words.count())
       println(counts.take(3).foreach(println))
-      counts.saveAsTextFile("output")
+      counts.saveAsTextFile("output4")
     }
 }

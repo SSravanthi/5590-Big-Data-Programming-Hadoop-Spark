@@ -1,5 +1,4 @@
 import org.apache.spark.{ SparkConf, SparkContext }
-
 object SecondarySorting {
   def main(args: Array[String]) {
     System.setProperty("hadoop.home.dir","C:\\Users\\Sravanthi Somalaraju\\Documents\\Bigdata ICPs\\winutils" )
@@ -12,7 +11,7 @@ object SecondarySorting {
     //val input =  sc.textFile(inputFile)
     val tempRDD = sc.textFile("C:\\Users\\Sravanthi Somalaraju\\Documents\\Bigdata ICPs\\Module2\\WordCount_Latest\\input\\input1")
     // Pairs the list of tuples.
-    val pairsRDD = tempRDD.map(_.split(",")).map { k => ((k(0), k(1)),k(2))}
+    val pairsRDD = tempRDD.map(_.split(",")).map { k => ((k(0), k(1)),k(3))}
     println("pairsRDD")
     pairsRDD.foreach { println }
     val numReducers = 3;
@@ -23,6 +22,5 @@ object SecondarySorting {
       println
     }
     listRDD.saveAsTextFile("Output1");
-
   }
 }

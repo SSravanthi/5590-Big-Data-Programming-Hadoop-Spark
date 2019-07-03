@@ -1,10 +1,7 @@
 /**
   * Illustrates flatMap + countByValue for wordcount.
   */
-
-
 import org.apache.spark._
-
 object CharCount {
   def main(args: Array[String]) {
 
